@@ -1,0 +1,13 @@
+#pragma kernel Texture3DGenerator
+uint3 Dims;
+
+Texture3D<float4> Tex;
+RWStructuredBuffer<float> Voxels;
+
+[numthreads(8, 8, 8)]
+void Texture3DGenerator(uint3 id : SV_DispatchThreadID)
+{
+    Voxels[id.x + Dims.x * (id.y + Dims.y * id.z)] = -Tex[id].x;
+}
+
+

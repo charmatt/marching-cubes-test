@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace MarchingCubes {
 
+    [ExecuteAlways]
     sealed class Texture3DVisualizer : MonoBehaviour
     {
         #region Editable attributes
@@ -33,7 +34,7 @@ namespace MarchingCubes {
 
         #region MonoBehaviour implementation
 
-        void Start()
+        void OnEnable()
         {
             _voxelBuffer = new ComputeBuffer(VoxelCount, sizeof(float));
             _builder = new MeshBuilder(_dimensions, _triangleBudget, _builderCompute);
@@ -47,7 +48,6 @@ namespace MarchingCubes {
 
         void Update()
         {
-            // Noise field update
             _volumeCompute.SetInts("Dims", _dimensions);
             _volumeCompute.SetBuffer(0, "Voxels", _voxelBuffer);
             _volumeCompute.SetTexture(0, "Tex", texture);
